@@ -1,8 +1,104 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@section Styles
+{
+	<link rel="stylesheet" type="text/css" href="~/css/main_page.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Scripts
+{
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+	<script src="~/js/clock.js"></script>
+	<script src="~/js/popup_module.js"></script>
+}
+
+<div class="d-flex" id="wrapper">
+
+	<!-- Sidebar -->
+	<div class="bg-dark border-right" id="sidebar-wrapper">
+		<div class="sidebar-heading text-light text-center"><i class="fas fa-user-md d-block display-4 text-primary"></i> Med-DB</div>
+		<div class="list-group list-group-flush">
+			<a href="#" class="list-group-item list-group-item-action bg-dark text-light">Moi Pacjenci <i class="fas fa-users"></i></a>
+			<a href="#" class="list-group-item list-group-item-action bg-dark text-light">Pacjenci Udostępnieni <i class="fas fa-user-plus"></i></a>
+			<a href="#" class="list-group-item list-group-item-action bg-dark text-light">Harmonogram <i class="fas fa-calendar-alt"></i></a>
+			<a href="#" class="list-group-item list-group-item-action bg-dark text-light">Wyloguj z Serwisu <i class="fas fa-sign-out-alt"></i></a>
+		</div>
+	</div>
+	<!-- /#sidebar-wrapper -->
+	<!-- Page Content -->
+	<div id="page-content-wrapper">
+
+		<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+			<button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button>
+
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+					<li class="nav-item">
+						<span class="nav-link nav-date">-</span>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link border border-top-0 border-bottom-0" href="#">Pomoc</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-dark font-weight-bold font-italic" href="#" id="idDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Kazimierz Lekarz
+						</a>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">Ustawienia konta</a>
+							<a class="dropdown-item" href="#">Kontakt z administratorem</a>
+							<div class="dropdown-divider"></div>
+							<a href="#" class="dropdown-item">Wyloguj z Serwisu <i class="fas fa-sign-out-alt"></i></a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container-fluid">
+			<h1 class="my-4">Lista Moich Pacjentów</h1>
+			<a class="btn btn-sm btn-primary my-3" href="#" role="button">Dodaj nowego pacjenta <i class="fas fa-plus"></i></a>
+			<table class="table table-responsive-md table-hover">
+				<thead class="thead-dark text-uppercase">
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Imię</th>
+						<th scope="col">Nazwisko</th>
+						<th scope="col">Płeć</th>
+						<th scope="col">PESEL</th>
+						<th scope="col">Akcje</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">1</th>
+						<td>Mark</td>
+						<td>Otto</td>
+						<td>Mężczyzna</td>
+						<td>98082578295</td>
+						<td>
+							<a role="button" class="btn btn-secondary btn-sm my-1" href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox">
+								Rentgen <i class="fas fa-x-ray"></i>
+							</a>
+							<a role="button" class="btn btn-primary btn-sm" href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox">
+								Kolor <i class="fas fa-palette"></i>
+							</a>
+							<a role="button" class="btn btn-danger btn-sm mr-0 mr-lg-n5" href="#">
+								Wypisz <i class="fas fa-minus"></i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- /#page-content-wrapper -->
+
 </div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->

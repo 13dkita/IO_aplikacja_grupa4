@@ -19,4 +19,12 @@ html, body{
 .background{
 	min-width: 100%;
 	min-height: 100vh;
+	background: url("undraw_doctors_hwty.svg");
+}
+
+.register-btn > a {
+	font-size: 1em;
+	color: white;
+	text-decoration: none;
+
 }

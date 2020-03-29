@@ -1,86 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Core.Flash;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
 
 namespace WebApp.Controllers
 {
-	public class AuthController : Controller
+	[Route("Auth")]
+	public class LoginController : Controller
 	{
 
 		private readonly ApplicationDbContext _db;
+		private readonly IFlasher _flasher;
 
-		public AuthController(ApplicationDbContext db)
+		public LoginController(ApplicationDbContext db, IFlasher flasher)
 		{
 			_db = db;
+			_flasher = flasher;
 		}
 
-		[BindProperty] public TempUser TempUser { get; set; }
 		[BindProperty] public User User { get; set; }
 
-		[HttpGet("RegisterDoctor")]
-		public IActionResult RegisterDoctor()
-		{
-			TempUser = new TempUser();
-			return View(TempUser);
-		}
-
-		[HttpPost("RegisterDoctor")]
-		public async Task<IActionResult> CreateDoctor()
-		{
-			if (!ModelState.IsValid)
-				return RedirectToAction("RegisterDoctor");
-
-			await _db.TempUser.AddAsync(TempUser);
-			await _db.SaveChangesAsync();
-
-			return RedirectToAction("Index", "Home");
-		}
-
-		[HttpGet("RegisterSelf")]
-		public async Task<IActionResult> RegisterSelf()
-		{
-			User = new User();
-			return View(User);
-		}
-
-		[HttpPost("RegisterSelf")]
-		public async Task<IActionResult> PostRegisterSelf(string repeatPassword)
-		{
-			TempUser foundUser = (from u in _db.TempUser where u.Pesel == User.Pesel select u).FirstOrDefault();
-
-			if (foundUser == null)
-				return RedirectToAction("RegisterSelf", "Auth");
-			else
-			{
-				if (User.Password == repeatPassword)
-				{
-					User.FirstName = foundUser.FirstName;
-					User.LastName = foundUser.LastName;
-					User.Specialization = foundUser.Specialization;
-
-					await _db.User.AddAsync(User);
-					_db.TempUser.Remove(foundUser);
-					await _db.SaveChangesAsync();
-				}
-
-				else
-					return RedirectToAction("RegisterSelf", "Auth");
-			}
-
-			return RedirectToAction("Index", "Home");
-		}
 
 		[HttpGet("Login")]
 		public IActionResult Login()
 		{
 			User = new User();
-			return View();
+			return View(User);
 		}
 
 		[HttpPost("Login")]
@@ -114,21 +67,26 @@ namespace WebApp.Controllers
 				var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
 				if (foundUser.IsAdmin)
-					return RedirectToAction("", "");
+				{
+					_flasher.Flash(Types.Info, "Zalogowano pomyślnie.", dismissable: true);
+					return RedirectToAction("RegisterDoctor", "Register");
+				}
 
+				_flasher.Flash(Types.Info, "Zalogowano pomyślnie.", dismissable: true);
 				return RedirectToAction("Index", "Home");
 			}
 
+			_flasher.Flash(Types.Danger, "PESEL lub hasło niepoprawne.", dismissable: true);
 			return RedirectToAction("Login");
 		}
 
-		[HttpPost("Logout")]
+		[Authorize(Roles = "Admin, User")]
+		[HttpGet("Logout")]
 		public IActionResult Logout()
 		{
 			var login = HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+			_flasher.Flash(Types.Info, "Wylogowano pomyślnie.", dismissable: true);
 			return RedirectToAction("Login");
 		}
-
-
 	}
 }

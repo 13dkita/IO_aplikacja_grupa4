@@ -10,14 +10,14 @@ namespace WebApp.Models
 	{
 		[Key]
 		public int Id { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Imię jest wymagane.")]
 		public string FirstName { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Nazwisko jest wymagane.")]
 		public string LastName { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Specjalizacja jest wymagana.")]
 		public string Specialization { get; set; }
-		[Required]
-		[RegularExpression(@"^(\d){11}$", ErrorMessage = "Pesel musi się składać z jedenastu cyfr.")]
+		[Required(ErrorMessage = "Pesel jest wymagany.")]
+		[RegularExpression(@"^(\d){11}$", ErrorMessage = "PESEL musi się składać z jedenastu cyfr.")]
 		public string Pesel { get; set; }
 	}
 }

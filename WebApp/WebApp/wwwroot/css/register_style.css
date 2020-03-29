@@ -16,7 +16,14 @@ html, body{
 	min-height: 100%;
 	padding: 10%;
 }
-.background{
+.background {
 	min-width: 100%;
 	min-height: 100vh;
+	background: url("undraw_medicine_b1ol.svg");
+}
+
+.login-btn > a {
+	font-size: 1em;
+	color: white;
+	text-decoration: none;
 }

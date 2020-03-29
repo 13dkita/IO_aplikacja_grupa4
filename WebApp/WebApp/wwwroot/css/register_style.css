@@ -1,0 +1,22 @@
+html, body{
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+.input-group-text{
+	margin-right: 0.25rem;
+}
+
+.flex-container{
+	position: absolute;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	min-width: 100%;
+	min-height: 100%;
+	padding: 10%;
+}
+.background{
+	min-width: 100%;
+	min-height: 100vh;
+}

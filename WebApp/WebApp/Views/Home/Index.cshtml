@@ -62,7 +62,61 @@
 
 		<div class="container-fluid">
 			<h1 class="my-4">Lista Moich Pacjentów</h1>
-			<a class="btn btn-sm btn-primary my-3" href="#" role="button">Dodaj nowego pacjenta <i class="fas fa-plus"></i></a>
+			<a class="btn btn-sm btn-primary my-3" href="#" type="button" data-toggle="modal" data-target="#pacjentModal" role="button">Dodaj nowego pacjenta <i class="fas fa-plus"></i></a>
+        <div class="modal fade" id="pacjentModal" tabindex="-1" role="dialog" aria-labelledby="pacjentModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="pacjentModalLabel">Dodaj pacjenta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text bg-primary" id="imieHelp"><i class="fas fa-user text-light"></i></span>
+                      </div>
+                      <input type="text" class="form-control" id="imie" placeholder="Imię" aria-describeby="imieHelp">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text bg-primary" id="nazwiskoHelp"><i class="fas fa-user text-light"></i></span>
+                      </div>
+                      <input type="text" class="form-control" id="nazwisko" placeholder="Nazwisko" aria-describedby="nazwiskoHelp">
+                    </div>
+                  </div>
+				  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text bg-primary" id="plecHelp"><i class="fas fa-venus-mars text-light"></i></span>
+                      </div>
+                      <input type="text" class="form-control" id="plec" placeholder="Płeć" aria-describedby="pelcHelp">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text bg-primary" id="peselHelp"><i class="fas fa-user-circle text-light"></i></span>
+                      </div>
+                      <input type="text" class="form-control" id="pesel" placeholder="PESEL" aria-describedby="peselHelp">
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-around px-5 py-3">
+                    <button type="submit" class="btn btn-lg btn-primary">Potwierdź</button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+              </div>
+            </div>
+          </div>
+        </div>
 			<table class="table table-responsive-md table-hover">
 				<thead class="thead-dark text-uppercase">
 					<tr>

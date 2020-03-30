@@ -2,13 +2,13 @@
 
 @section Styles
 {
-<link rel="stylesheet" type="text/css" href="~/css/main_page.css">
+	<link rel="stylesheet" type="text/css" href="~/css/main_page.css">
 }
 
 @section Scripts
 {
-<script src="js/clock.js"></script>
-<partial name="_ValidationScriptsPartial" />
+	<script src="~/js/clock.js"></script>
+	<partial name="_ValidationScriptsPartial" />
 }
 
 
@@ -52,7 +52,7 @@
 				</ul>
 			</div>
 		</nav>
-		
+
 		<div flashes></div>
 
 		<div class="container-fluid">
@@ -142,22 +142,34 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th scope="row">1</th>
-						<td>Mark</td>
-						<td>Otto</td>
-						<td>Ortopeda</td>
-						<td>98082578295</td>
-						<td>otto69</td>
-						<td>
-							<a role="button" class="btn btn-primary text-light btn-sm">
-								Zmień Hasło <i class="fas fa-lock"></i>
-							</a>
-							<a role="button" class="btn btn-danger btn-sm mr-0 mr-lg-n5" href="#">
-								Wypisz <i class="fas fa-minus"></i>
-							</a>
-						</td>
-					</tr>
+
+					@{
+						int i = 1;
+					}
+
+					@foreach (User doctor in ViewBag.AllDoctors)
+					{
+						if (!doctor.IsAdmin)
+						{
+							<tr>
+								<th scope="row">@i</th>
+								<td>@doctor.FirstName</td>
+								<td>@doctor.LastName</td>
+								<td>@doctor.Specialization</td>
+								<td>@doctor.Pesel</td>
+								<input class="doctors-id" type="hidden" value="@doctor.Id" />
+								<td>
+									<a role="button" class="btn btn-primary text-light btn-sm">
+										Zmień Hasło <i class="fas fa-lock"></i>
+									</a>
+									<a role="button" class="btn btn-danger btn-sm mr-0 mr-lg-n5" href="#">
+										Wypisz <i class="fas fa-minus"></i>
+									</a>
+								</td>
+							</tr>
+							i++;
+						}
+					}
 				</tbody>
 			</table>
 		</div>

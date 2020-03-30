@@ -6,6 +6,7 @@ using Core.Flash;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -29,8 +30,9 @@ namespace WebApp.Controllers
 
 		[Authorize(Roles = "Admin")]
 		[HttpGet("RegisterDoctor")]
-		public IActionResult RegisterDoctor()
+		public async Task<IActionResult> RegisterDoctor()
 		{
+			ViewBag.AllDoctors = await _db.User.ToListAsync();
 			TempUser = new TempUser();
 			return View(TempUser);
 		}

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +27,12 @@ namespace WebApp
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(options =>
+				{
+					options.LoginPath = "/Auth/Login";
+					options.LogoutPath = "/Auth/Logout";
+				});
 			services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("MikolajPieConnection")));
 			services.AddFlashes().AddControllersWithViews().AddRazorRuntimeCompilation();
 		}
@@ -46,6 +52,7 @@ namespace WebApp
 			}
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
+			app.UseCookiePolicy();
 			app.UseAuthentication();
 			app.UseRouting();
 

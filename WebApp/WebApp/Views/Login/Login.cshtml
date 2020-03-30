@@ -5,8 +5,13 @@
     <link rel="stylesheet" type="text/css" href="~/css/login_style.css">
 }
 
+@section Scripts
+{
+	
+}
 
-    <div class="brand text-dark text-center display-5 position-absolute bg-light font-weight-bold rounded-circle py-3 px-4 shadow-lg m-5"><i class="fas fa-user-md d-block display-4 text-primary"></i> Med-DB</div>
+
+<div class="brand text-dark text-center display-5 position-absolute bg-light font-weight-bold rounded-circle py-3 px-4 shadow-lg m-5"><i class="fas fa-user-md d-block display-4 text-primary"></i> Med-DB</div>
     <div class="flex-container">
         <div class="position-absolute d-flex justify-content-center align-items-center bg-light p-5 rounded shadow-lg">
             <form asp-controller="Login" asp-action="PostLogin" method="post">

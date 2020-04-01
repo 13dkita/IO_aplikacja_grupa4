@@ -1,5 +1,4 @@
-﻿@model Patient
-
+﻿
 @section Styles
 {
 	<link rel="stylesheet" type="text/css" href="~/css/main_page.css">
@@ -9,7 +8,6 @@
 {
 	<script src="~/js/clock.js"></script>
 	<script src="~/js/popup_module.js"></script>
-	<partial name="_ValidationScriptsPartial" />
 }
 
 <div class="d-flex" id="wrapper">
@@ -72,21 +70,13 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<form asp-controller="Patient" asp-action="CreatePatient" method="post">
-								
-								<div asp-validation-summary="ModelOnly">
-
-								</div>
-
+							<form>
 								<div class="form-group">
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
 											<span class="input-group-text bg-primary" id="imieHelp"><i class="fas fa-user text-light"></i></span>
 										</div>
-										<input asp-for="FirstName" type="text" class="form-control" id="imie" placeholder="Imię" aria-describeby="imieHelp">
-										<div class="w-100">
-											<span class="small text-danger" asp-validation-for="FirstName"></span>
-										</div>
+										<input type="text" class="form-control" id="imie" placeholder="Imię" aria-describeby="imieHelp">
 									</div>
 								</div>
 								<div class="form-group">
@@ -94,10 +84,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text bg-primary" id="nazwiskoHelp"><i class="fas fa-user text-light"></i></span>
 										</div>
-										<input asp-for="LastName" type="text" class="form-control" id="nazwisko" placeholder="Nazwisko" aria-describedby="nazwiskoHelp">
-										<div class="w-100">
-											<span class="small text-danger" asp-validation-for="LastName"></span>
-										</div>
+										<input type="text" class="form-control" id="nazwisko" placeholder="Nazwisko" aria-describedby="nazwiskoHelp">
 									</div>
 								</div>
 								<div class="form-group">
@@ -105,13 +92,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text bg-primary" id="plecHelp"><i class="fas fa-venus-mars text-light"></i></span>
 										</div>
-										<select asp-for="SelectedGender" class="form-control" id="plec" placeholder="Płeć" aria-describedby="pelcHelp">
-											<option value="M">Mężczyzna</option>
-											<option value="K">Kobieta</option>
-										</select>
-										<div class="w-100">
-											<span class="small text-danger" asp-validation-for="SelectedGender"></span>
-										</div>
+										<input type="text" class="form-control" id="plec" placeholder="Płeć" aria-describedby="pelcHelp">
 									</div>
 								</div>
 								<div class="form-group">
@@ -119,10 +100,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text bg-primary" id="peselHelp"><i class="fas fa-user-circle text-light"></i></span>
 										</div>
-										<input asp-for="Pesel" type="text" class="form-control" id="pesel" placeholder="PESEL" aria-describedby="peselHelp">
-										<div class="w-100">
-											<span class="small text-danger" asp-validation-for="Pesel"></span>
-										</div>
+										<input type="text" class="form-control" id="pesel" placeholder="PESEL" aria-describedby="peselHelp">
 									</div>
 								</div>
 								<div class="d-flex justify-content-around px-5 py-3">
@@ -138,42 +116,34 @@
 			</div>
 			<table class="table table-responsive-md table-hover">
 				<thead class="thead-dark text-uppercase">
-					<tr>
-						<th scope="col">#</th>
-						<th scope="col">Imię</th>
-						<th scope="col">Nazwisko</th>
-						<th scope="col">Płeć</th>
-						<th scope="col">PESEL</th>
-						<th scope="col">Akcje</th>
-					</tr>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Imię</th>
+					<th scope="col">Nazwisko</th>
+					<th scope="col">Płeć</th>
+					<th scope="col">PESEL</th>
+					<th scope="col">Akcje</th>
+				</tr>
 				</thead>
 				<tbody>
-				@{
-					int i = 1;
-				}
-				@foreach (Patient patient in ViewBag.TreatedPatients)
-				{
-					<tr>
-						<th scope="row">@i</th>
-						<td>@patient.FirstName</td>
-						<td>@patient.LastName</td>
-						<td>@(patient.SelectedGender == 'M' ? "Mężczyzna" : "Kobieta")</td>
-						<td>@patient.Pesel</td>
-						<td>
-							<a role="button" class="btn btn-secondary btn-sm my-1" href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox">
-								Rentgen <i class="fas fa-x-ray"></i>
-							</a>
-							<a role="button" class="btn btn-primary btn-sm" href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox">
-								Kolor <i class="fas fa-palette"></i>
-							</a>
-							<a role="button" class="btn btn-danger btn-sm mr-0 mr-lg-n5" href="#">
-								Wypisz <i class="fas fa-minus"></i>
-							</a>
-						</td>
-					</tr>
-
-					i++;
-				}
+				<tr>
+					<th scope="row">1</th>
+					<td>Mark</td>
+					<td>Otto</td>
+					<td>Mężczyzna</td>
+					<td>98082578295</td>
+					<td>
+						<a role="button" class="btn btn-secondary btn-sm my-1" href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox">
+							Rentgen <i class="fas fa-x-ray"></i>
+						</a>
+						<a role="button" class="btn btn-primary btn-sm" href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox">
+							Kolor <i class="fas fa-palette"></i>
+						</a>
+						<a role="button" class="btn btn-danger btn-sm mr-0 mr-lg-n5" href="#">
+							Wypisz <i class="fas fa-minus"></i>
+						</a>
+					</td>
+				</tr>
 				</tbody>
 			</table>
 		</div>

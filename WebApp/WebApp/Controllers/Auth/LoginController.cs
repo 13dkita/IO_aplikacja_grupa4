@@ -52,16 +52,14 @@ namespace WebApp.Controllers
 				{
 					identity = new ClaimsIdentity(new[] {
 						new Claim(ClaimTypes.Name, $"{foundUser.FirstName} {foundUser.LastName}"),
-						new Claim(ClaimTypes.Role, "Admin"),
-						new Claim(ClaimTypes.NameIdentifier, foundUser.Pesel)
+						new Claim(ClaimTypes.Role, "Admin")
 					}, CookieAuthenticationDefaults.AuthenticationScheme);
 				}
 				else
 				{
 					identity = new ClaimsIdentity(new[] {
 						new Claim(ClaimTypes.Name, $"{foundUser.FirstName} {foundUser.LastName}"),
-						new Claim(ClaimTypes.Role, "User"),
-						new Claim(ClaimTypes.NameIdentifier, foundUser.Pesel)
+						new Claim(ClaimTypes.Role, "User")
 					}, CookieAuthenticationDefaults.AuthenticationScheme);
 				}
 

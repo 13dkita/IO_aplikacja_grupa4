@@ -15,7 +15,6 @@ namespace WebApp.Models
 
 		public DbSet<User> User { get; set; }
 		public DbSet<TempUser> TempUser { get; set; }
-		public DbSet<Patient> Patient { get; set; }
 		
 	}
 }

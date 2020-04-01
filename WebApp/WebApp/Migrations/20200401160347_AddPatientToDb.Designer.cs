@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Models;
 
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200401160347_AddPatientToDb")]
+    partial class AddPatientToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace WebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CurrenctDoctorId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -52,8 +51,6 @@ namespace WebApp.Migrations
                         .HasColumnType("nvarchar(1)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CurrenctDoctorId");
 
                     b.ToTable("Patient");
                 });
@@ -127,13 +124,6 @@ namespace WebApp.Migrations
                     b.HasIndex("PatientId");
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("WebApp.Models.Patient", b =>
-                {
-                    b.HasOne("WebApp.Models.User", "CurrenctDoctor")
-                        .WithMany()
-                        .HasForeignKey("CurrenctDoctorId");
                 });
 
             modelBuilder.Entity("WebApp.Models.User", b =>

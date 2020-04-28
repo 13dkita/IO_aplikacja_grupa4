@@ -10,8 +10,8 @@ using WebApp.Models;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200401163522_AddCurrentDoctorToPatient")]
-    partial class AddCurrentDoctorToPatient
+    [Migration("20200428125204_fixPatientUserModel_AddTreatmentHistory_AddSharedPatients")]
+    partial class fixPatientUserModel_AddTreatmentHistory_AddSharedPatients
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -60,6 +60,28 @@ namespace WebApp.Migrations
                     b.ToTable("Patient");
                 });
 
+            modelBuilder.Entity("WebApp.Models.SharedPatients", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("SharedPatients");
+                });
+
             modelBuilder.Entity("WebApp.Models.TempUser", b =>
                 {
                     b.Property<int>("Id")
@@ -88,6 +110,31 @@ namespace WebApp.Migrations
                     b.ToTable("TempUser");
                 });
 
+            modelBuilder.Entity("WebApp.Models.TreatmentHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TreatmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("TreatmentHistory");
+                });
+
             modelBuilder.Entity("WebApp.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -113,9 +160,6 @@ namespace WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PatientId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Pesel")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -125,8 +169,6 @@ namespace WebApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PatientId");
 
                     b.ToTable("User");
                 });
@@ -138,10 +180,25 @@ namespace WebApp.Migrations
                         .HasForeignKey("CurrenctDoctorId");
                 });
 
-            modelBuilder.Entity("WebApp.Models.User", b =>
+            modelBuilder.Entity("WebApp.Models.SharedPatients", b =>
                 {
-                    b.HasOne("WebApp.Models.Patient", null)
-                        .WithMany("TreatmentHistory")
+                    b.HasOne("WebApp.Models.User", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId");
+
+                    b.HasOne("WebApp.Models.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
+                });
+
+            modelBuilder.Entity("WebApp.Models.TreatmentHistory", b =>
+                {
+                    b.HasOne("WebApp.Models.User", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId");
+
+                    b.HasOne("WebApp.Models.Patient", "Patient")
+                        .WithMany()
                         .HasForeignKey("PatientId");
                 });
 #pragma warning restore 612, 618

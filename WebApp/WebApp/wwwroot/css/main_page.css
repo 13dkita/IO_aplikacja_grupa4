@@ -52,6 +52,11 @@ body {
   color: rgba(0,0,0,.5)!important;
 }
 
+/*.roentgenPhoto {
+    width: 100%;
+    height: 100%;
+}*/
+
 @media (min-width: 768px) {
   #sidebar-wrapper {
     margin-left: 0;

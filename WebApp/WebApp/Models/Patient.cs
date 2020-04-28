@@ -25,13 +25,7 @@ namespace WebApp.Models
 
 		public User CurrenctDoctor { get; set; }
 
-		public byte[] RoentgenPhoto
-		{
-			get { return RoentgenGenerator.LoadRandomImage(); }
-			set { this.roentgenPhoto = value; }
-		}
-
-		private byte[] roentgenPhoto = null;
+		public byte[] RoentgenPhoto { get; set; }
 
 		[Required]
 		public DateTime DateCreated

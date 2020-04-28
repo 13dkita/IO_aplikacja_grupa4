@@ -13,7 +13,9 @@ namespace WebApp.Utils
 	{
 		public static byte[] LoadRandomImage()
 		{
-			Bitmap bmp = new Bitmap("Roentgen_Images/roentgen1.bmp");
+			var rnd = new Random();
+			var files = Directory.GetFiles("Roentgen_Images", "*.jpg");
+			Bitmap bmp = new Bitmap(files[rnd.Next(files.Length)]);
 			ImageConverter converter = new ImageConverter();
 			return (byte[]) converter.ConvertTo(bmp, typeof(byte[]));
 		}

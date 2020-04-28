@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using WebApp.Models;
+using WebApp.Utils;
 
 namespace WebApp.Controllers
 {
@@ -61,14 +62,14 @@ namespace WebApp.Controllers
 				Patient.TreatmentHistory = new List<User>();
 				Patient.CurrenctDoctor = _db.User.Where(usr => usr.Pesel == User.FindFirstValue(ClaimTypes.NameIdentifier))
 					.Select(x => x).First();
+				Patient.RoentgenPhoto = RoentgenGenerator.LoadRandomImage();
 
 				await _db.Patient.AddAsync(Patient);
 				await _db.SaveChangesAsync();
 
 				_flasher.Flash(Types.Info, "Pomyślnie dodano nowego pacjenta.", dismissable: true);
 			}
-			// TODO zakodować przyciski do wyświetlania zdjęć roentgenowskich
-			
+
 			return RedirectToAction("Index");
 		}
 	}

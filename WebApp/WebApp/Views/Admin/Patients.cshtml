@@ -1,40 +1,29 @@
-﻿@using Microsoft.CodeAnalysis.CSharp
-@model Patient
-
-@section Styles
+﻿@section Styles
 {
 	<link rel="stylesheet" type="text/css" href="~/css/main_page.css">
 }
 
 @section Scripts
 {
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.0.0/caman.full.min.js"></script>
-	<script src="~/js/xray_to_color.js"></script>
 	<script src="~/js/clock.js"></script>
-	<script src="~/js/popup_module.js"></script>
+	<script src="~/js/xray_to_color.js"></script>
 	<partial name="_ValidationScriptsPartial" />
 }
+
 
 <div class="d-flex" id="wrapper">
 
 	<!-- Sidebar -->
 	<div class="bg-dark border-right" id="sidebar-wrapper">
-		<div class="sidebar-heading text-light text-center">
-			<i class="fas fa-user-md d-block display-4 text-primary"></i> Med-DB
+		<div class="sidebar-heading text-light text-center"><i class="fas fa-user-md d-block display-4 text-primary"></i> Med-DB</div>
+		<div class="text-light text-center">
+			<a class="list-group-item list-group-item-action bg-dark text-light" href="/Auth/Register/RegisterDoctor">Lista Lekarzy</a>
+		</div>
+		<div class="text-light text-center">
+			<a href="/Admin/Patients" class="list-group-item list-group-item-action bg-dark text-light">Lista Pacjentów</a>
 		</div>
 		<div class="list-group list-group-flush">
-			<a href="/Patient/Index" class="list-group-item list-group-item-action bg-dark text-light">
-				Moi Pacjenci <i class="fas fa-users"></i>
-			</a>
-			<a href="/Patient/Shared" class="list-group-item list-group-item-action bg-dark text-light">
-				Pacjenci Udostępnieni <i class="fas fa-user-plus"></i>
-			</a>
-			<a href="#" class="list-group-item list-group-item-action bg-dark text-light">
-				Harmonogram <i class="fas fa-calendar-alt"></i>
-			</a>
-			<a href="/Auth/Logout" class="list-group-item list-group-item-action bg-dark text-light">
-				Wyloguj z Serwisu <i class="fas fa-sign-out-alt"></i>
-			</a>
+			<a href="/Auth/Logout" class="list-group-item list-group-item-action bg-dark text-light">Wyloguj z Serwisu <i class="fas fa-sign-out-alt"></i></a>
 		</div>
 	</div>
 	<!-- /#sidebar-wrapper -->
@@ -44,8 +33,7 @@
 		<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
 			<button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button>
 
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
@@ -58,116 +46,20 @@
 						<a class="nav-link border border-top-0 border-bottom-0" href="#">Pomoc</a>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle text-dark font-weight-bold font-italic" href="#"
-						   id="idDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-						   aria-expanded="false">
-							@ViewBag.Username
+						<a class="nav-link dropdown-toggle text-dark font-weight-bold font-italic" href="#" id="idDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Administrator
 						</a>
 						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">Ustawienia konta</a>
-							<a class="dropdown-item" href="#">Kontakt z administratorem</a>
-							<div class="dropdown-divider"></div>
-							<a href="/Auth/Logout" class="dropdown-item">
-								Wyloguj z Serwisu <i class="fas fa-sign-out-alt"></i>
-							</a>
+							<a href="/Auth/Logout" class="dropdown-item">Wyloguj z Serwisu <i class="fas fa-sign-out-alt"></i></a>
 						</div>
 					</li>
 				</ul>
 			</div>
 		</nav>
 
+		<div flashes></div>
+
 		<div class="container-fluid">
-			<div flashes></div>
-			<h1 class="my-4">Lista Moich Pacjentów</h1>
-			<a class="btn btn-sm btn-primary my-3" href="#" type="button" data-toggle="modal"
-			   data-target="#pacjentModal" role="button">Dodaj nowego pacjenta <i class="fas fa-plus"></i></a>
-			<div class="modal fade" id="pacjentModal" tabindex="-1" role="dialog" aria-labelledby="pacjentModalLabel"
-				 aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="pacjentModalLabel">Dodaj pacjenta</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form asp-controller="Patient" asp-action="CreatePatient" method="post">
-
-								<div asp-validation-summary="ModelOnly">
-
-								</div>
-
-								<div class="form-group">
-									<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text bg-primary" id="imieHelp">
-												<i class="fas fa-user text-light"></i>
-											</span>
-										</div>
-										<input asp-for="FirstName" type="text" class="form-control" id="imie"
-											   placeholder="Imię" aria-describeby="imieHelp">
-										<div class="w-100">
-											<span class="small text-danger" asp-validation-for="FirstName"></span>
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text bg-primary" id="nazwiskoHelp">
-												<i class="fas fa-user text-light"></i>
-											</span>
-										</div>
-										<input asp-for="LastName" type="text" class="form-control" id="nazwisko"
-											   placeholder="Nazwisko" aria-describedby="nazwiskoHelp">
-										<div class="w-100">
-											<span class="small text-danger" asp-validation-for="LastName"></span>
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text bg-primary" id="plecHelp">
-												<i class="fas fa-venus-mars text-light"></i>
-											</span>
-										</div>
-										<select asp-for="SelectedGender" class="form-control" id="plec"
-												placeholder="Płeć" aria-describedby="pelcHelp">
-											<option value="M">Mężczyzna</option>
-											<option value="K">Kobieta</option>
-										</select>
-										<div class="w-100">
-											<span class="small text-danger" asp-validation-for="SelectedGender"></span>
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text bg-primary" id="peselHelp">
-												<i class="fas fa-user-circle text-light"></i>
-											</span>
-										</div>
-										<input asp-for="Pesel" type="text" class="form-control" id="pesel"
-											   placeholder="PESEL" aria-describedby="peselHelp">
-										<div class="w-100">
-											<span class="small text-danger" asp-validation-for="Pesel"></span>
-										</div>
-									</div>
-								</div>
-								<div class="d-flex justify-content-around px-5 py-3">
-									<button type="submit" class="btn btn-lg btn-primary">Potwierdź</button>
-								</div>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-						</div>
-					</div>
-				</div>
-			</div>
 			<table class="table table-responsive-md table-hover">
 				<thead class="thead-dark text-uppercase">
 					<tr>
@@ -183,7 +75,7 @@
 					@{
 						int i = 0;
 					}
-					@foreach (Patient patient in ViewBag.TreatedPatients)
+					@foreach (Patient patient in ViewBag.Patients)
 					{
 						<tr>
 							<th scope="row">@(i + 1)</th>
@@ -246,21 +138,32 @@
 											</div>
 											<div class="modal-body">
 												<form asp-action="SharePatient" asp-controller="Patient" method="post">
-													<input type="hidden" name="action" value="Index" />
-													<input type="hidden" name="controller" value="Patient" />
-													<input value="@(patient.Id)" type="hidden" name="patientId" />
+													<input type="hidden" name="action" value="Patients"/>
+													<input type="hidden" name="controller" value="Admin"/>
+													<input value="@(patient.Id)" type="hidden" name="patientId"/>
 													<p>Komu chciałbyś udostępnić pacjenta?</p>
 													<select name="doctorId">
 														<option value="" selected disabled hidden>Wybierz lekarza</option>
-														@foreach (User doctor in ViewBag.AllDoctors)
+														@foreach (User doctor in ViewBag.Doctors)
 														{
-															<option value="@doctor.Id">@doctor.FirstName @doctor.LastName</option>
+															bool renderPatient = true;
+															foreach (SharedPatients sp in ViewBag.SharedPatients)
+															{
+																if (sp.Doctor.Id == doctor.Id && sp.Patient.Id == patient.Id)
+																{
+																	renderPatient = false;
+																}
+															}
+															@if (patient.CurrenctDoctor.Id != doctor.Id && renderPatient)
+															 {
+																 <option value="@doctor.Id">@doctor.FirstName @doctor.LastName</option>
+															 }
 														}
 													</select>
 													<div class="modal-footer">
 														<button id="@("sharePatientBtn" + i.ToString())" type="submit" class="btn btn-primary">Udostępnij</button>
 														<button type="button" class="btn btn-secondary"
-																data-dismiss="modal">
+														        data-dismiss="modal">
 															Anuluj
 														</button>
 													</div>
@@ -287,9 +190,10 @@
 												<p>Czy na pewno chcesz wypisać pacjenta z systemu?</p>
 											</div>
 											<div class="modal-footer">
-												<form asp-action="SignOutPatient" asp-controller="Patient" asp-route-id="@(patient.Id)" method="post">
-													<input type="hidden" name="action" value="Index" />
-													<input type="hidden" name="controller" value="Patient" />
+												<form asp-action="SignOutPatient" asp-controller="Patient" method="post">
+													<input type="hidden" name="action" value="Patients" />
+													<input type="hidden" name="controller" value="Admin" />
+													<input type="hidden" name="id" value="@(patient.Id)" />
 													<button id="@("singOutPatientBtn" + i.ToString())" type="submit" class="btn btn-primary">Tak</button>
 												</form>
 												<button type="button" class="btn btn-secondary"
@@ -312,5 +216,3 @@
 	<!-- /#page-content-wrapper -->
 
 </div>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->

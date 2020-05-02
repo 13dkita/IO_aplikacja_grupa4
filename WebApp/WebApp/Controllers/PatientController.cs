@@ -36,6 +36,9 @@ namespace WebApp.Controllers
 		[HttpGet("Index")]
 		public IActionResult Index()
 		{
+			if (User.FindFirstValue(ClaimTypes.Role) == "Admin")
+				return RedirectToAction("RegisterDoctor", "Register");
+
 			Patient = new Patient();
 
 			List<Patient> treatedPatients =
@@ -82,8 +85,8 @@ namespace WebApp.Controllers
 			return RedirectToAction("Index");
 		}
 
-		[HttpGet("Index/Delete/{id:int}")]
-		public async Task<IActionResult> SignOutPatient(int id)
+		[HttpPost("Index/Delete")]
+		public async Task<IActionResult> SignOutPatient(int id, string action, string controller)
 		{
 			Patient foundPatient = _db.Patient.Where(p => p.Id == id).FirstOrDefault();
 
@@ -93,11 +96,11 @@ namespace WebApp.Controllers
 
 			_flasher.Flash(Types.Info, "Pomyślnie wypisano pacjenta.", dismissable: true);
 
-			return RedirectToAction("Index");
+			return RedirectToAction(action, controller);
 		}
 
 		[HttpPost("Index/Share")]
-		public async Task<IActionResult> SharePatient(int patientId, int? doctorId)
+		public async Task<IActionResult> SharePatient(int patientId, int? doctorId, string action, string controller)
 		{
 			SharedPatients foundSharedPatient =
 				_db.SharedPatients.FirstOrDefault(sp => sp.Doctor.Id == doctorId && sp.Patient.Id == patientId);
@@ -123,7 +126,8 @@ namespace WebApp.Controllers
 				_flasher.Flash(Types.Info, "Pomyślnie udostępniono pacjenta.", dismissable: true);
 			}
 
-			return RedirectToAction("Index");
+			
+			return RedirectToAction(action, controller);
 		}
 
 		[HttpGet("Shared")]

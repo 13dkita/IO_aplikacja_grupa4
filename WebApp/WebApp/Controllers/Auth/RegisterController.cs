@@ -105,5 +105,45 @@ namespace WebApp.Controllers
 
 			return RedirectToAction("Login", "Login");
 		}
+
+		[HttpGet("DeleteDoctor/{id:int}")]
+		public async Task<IActionResult> DeleteDoctor(int id)
+		{
+			User foundDoctor = _db.User.Where(p => p.Id == id).FirstOrDefault();
+			List<SharedPatients> sp = _db.SharedPatients.Where(sp => sp.Doctor.Id == id).ToList();
+			List<Patient> patients = _db.Patient.Where(p => p.CurrenctDoctor.Id == id).ToList();
+
+			foreach (var patient in patients)
+			{
+				patient.CurrenctDoctor = null;
+			}
+			
+			_db.SharedPatients.RemoveRange(sp);
+			_db.User.Remove(foundDoctor);
+			await _db.SaveChangesAsync();
+
+			_flasher.Flash(Types.Info, "Pomyślnie wypisano lekarza.", dismissable: true);
+
+			return RedirectToAction("RegisterDoctor");
+		}
+
+		[HttpPost("ChangeDoctorPassword/{id:int}")]
+		public async Task<IActionResult> ChangeDoctorPassword(int id, string repeatPassword, string password)
+		{
+			if (password != repeatPassword)
+				_flasher.Flash(Types.Danger, "Powtórzone hasło nie zgadza się.", dismissable: true);
+			else
+			{
+				User doctor = _db.User.Where(u => u.Id == id).FirstOrDefault();
+				doctor.Password = password;
+				await _db.SaveChangesAsync();
+
+				_flasher.Flash(Types.Success, "Pomyślnie zmieniono hasło lekarza.", dismissable: true);
+			}
+			
+
+
+			return RedirectToAction("RegisterDoctor");
+		}
 	}
 }

@@ -254,7 +254,20 @@
 														<option value="" selected disabled hidden>Wybierz lekarza</option>
 														@foreach (User doctor in ViewBag.AllDoctors)
 														{
-															<option value="@doctor.Id">@doctor.FirstName @doctor.LastName</option>
+
+
+															bool renderDoctor = true;
+															foreach (SharedPatients sp in ViewBag.SharedPatients)
+															{
+																if (sp.Doctor.Id == doctor.Id && sp.Patient.Id == patient.Id)
+																{
+																	renderDoctor = false;
+																}
+															}
+															@if (renderDoctor && !doctor.IsAdmin)
+															{
+																<option value="@doctor.Id">@doctor.FirstName @doctor.LastName</option>
+															}
 														}
 													</select>
 													<div class="modal-footer">

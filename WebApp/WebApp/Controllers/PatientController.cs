@@ -9,6 +9,7 @@ using Core.Flash;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebApp.Models;
 using WebApp.Utils;
@@ -42,11 +43,12 @@ namespace WebApp.Controllers
 			Patient = new Patient();
 
 			List<Patient> treatedPatients =
-				_db.Patient.Where(patient => patient.NotPatientAnymore == false && patient.CurrenctDoctor.Pesel == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList();
+				_db.Patient.Include(tp => tp.CurrenctDoctor).Where(patient => patient.NotPatientAnymore == false && patient.CurrenctDoctor.Pesel == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList();
 
 			ViewBag.TreatedPatients = treatedPatients;
 
 			ViewBag.AllDoctors = _db.User.Where(u => u.Pesel != User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList();
+			ViewBag.SharedPatients = _db.SharedPatients.Include(sp => sp.Doctor).Include(sp => sp.Patient).ToList();
 
 			ViewBag.Username = HttpContext.User.Identity.Name;
 			return View(Patient);

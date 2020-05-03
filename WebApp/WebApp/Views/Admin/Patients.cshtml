@@ -146,15 +146,15 @@
 														<option value="" selected disabled hidden>Wybierz lekarza</option>
 														@foreach (User doctor in ViewBag.Doctors)
 														{
-															bool renderPatient = true;
+															bool renderDoctor = true;
 															foreach (SharedPatients sp in ViewBag.SharedPatients)
 															{
 																if (sp.Doctor.Id == doctor.Id && sp.Patient.Id == patient.Id)
 																{
-																	renderPatient = false;
+																	renderDoctor = false;
 																}
 															}
-															@if (patient.CurrenctDoctor.Id != doctor.Id && renderPatient)
+															@if (patient.CurrenctDoctor.Id != doctor.Id && renderDoctor)
 															 {
 																 <option value="@doctor.Id">@doctor.FirstName @doctor.LastName</option>
 															 }

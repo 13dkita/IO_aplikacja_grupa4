@@ -13,20 +13,20 @@ namespace WebApp.Controllers
 {
 	[Route("Auth/Register")]
 	public class RegisterController : Controller
-    {
+	{
 
-	    private readonly ApplicationDbContext _db;
-	    private readonly IFlasher _flasher;
+		private readonly ApplicationDbContext _db;
+		private readonly IFlasher _flasher;
 
-	    public RegisterController(ApplicationDbContext db, IFlasher flasher)
-	    {
-		    _db = db;
-		    _flasher = flasher;
-	    }
+		public RegisterController(ApplicationDbContext db, IFlasher flasher)
+		{
+			_db = db;
+			_flasher = flasher;
+		}
 
 		[BindProperty] public TempUser TempUser { get; set; }
 
-	    [BindProperty] public User User { get; set; }
+		[BindProperty] public User User { get; set; }
 
 		[Authorize(Roles = "Admin")]
 		[HttpGet("RegisterDoctor")]
@@ -44,9 +44,14 @@ namespace WebApp.Controllers
 			TempUser foundTempUser = (from tmpUsr in _db.TempUser where tmpUsr.Pesel == TempUser.Pesel select tmpUsr).FirstOrDefault();
 			User foundUser = (from usr in _db.User where usr.Pesel == TempUser.Pesel select usr).FirstOrDefault();
 
+			
 			if (foundTempUser != null || foundUser != null)
 			{
 				_flasher.Flash(Types.Danger, "Lekarz o podanym numer PESEL już istnieje.", dismissable: true);
+			}
+			else if (!PeselChecksum(TempUser.Pesel))
+			{
+				_flasher.Flash(Types.Danger, "Podany pesel jest nieprawidłowy.", dismissable: true);
 			}
 			else
 			{
@@ -56,6 +61,25 @@ namespace WebApp.Controllers
 			}
 
 			return RedirectToAction("RegisterDoctor");
+		}
+
+		public bool PeselChecksum(string pesel)
+		{
+			bool peselValid = false;
+
+			if (pesel.Length == 11 && ulong.TryParse(pesel, out _))
+			{
+				int checksum = 0;
+
+				int[] key = { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
+				for (int i = 0; i < key.Length; i++)
+					checksum += (int) Char.GetNumericValue(pesel[i]) * key[i];
+
+				if (10 - checksum % 10 == (int) Char.GetNumericValue(pesel[pesel.Length - 1]))
+					peselValid = true;
+			}
+
+			return peselValid;
 		}
 
 		[HttpGet("RegisterSelf")]
@@ -117,7 +141,7 @@ namespace WebApp.Controllers
 			{
 				patient.CurrenctDoctor = null;
 			}
-			
+
 			_db.SharedPatients.RemoveRange(sp);
 			_db.User.Remove(foundDoctor);
 			await _db.SaveChangesAsync();
@@ -140,7 +164,7 @@ namespace WebApp.Controllers
 
 				_flasher.Flash(Types.Success, "Pomyślnie zmieniono hasło lekarza.", dismissable: true);
 			}
-			
+
 
 
 			return RedirectToAction("RegisterDoctor");

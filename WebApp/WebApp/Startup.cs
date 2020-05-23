@@ -33,7 +33,8 @@ namespace WebApp
 					options.LoginPath = "/Auth/Login";
 					options.LogoutPath = "/Auth/Logout";
 				});
-			services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("MikolajPieConnection")));
+			services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("MikolajPieConnection"),
+				sqlServerOptionsAction: sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));
 			services.AddFlashes().AddControllersWithViews().AddRazorRuntimeCompilation();
 		}
 

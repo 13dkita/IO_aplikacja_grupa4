@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WebApp.Models;
 
-namespace WebApp.Controllers
+namespace WebApp.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]

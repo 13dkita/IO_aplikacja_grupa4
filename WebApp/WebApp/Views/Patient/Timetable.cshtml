@@ -1,0 +1,124 @@
+﻿@model TimetableVisit;
+
+@section Styles
+{
+<link rel="stylesheet" type="text/css" href="~/css/main_page.css">
+<link href='~/lib/fullcalendar/core/main.css' rel='stylesheet' />
+<link href='~/lib/fullcalendar/daygrid/main.css' rel='stylesheet' />
+<link href='~/lib/fullcalendar/timegrid/main.css' rel='stylesheet' />
+<link href='~/lib/fullcalendar/list/main.css' rel='stylesheet' />
+}
+
+@section Scripts
+{
+<script src="~/js/clock.js"></script>
+<script src='~/lib/fullcalendar/core/main.js'></script>
+<script src='~/lib/fullcalendar/daygrid/main.js'></script>
+<script src='~/lib/fullcalendar/timegrid/main.js'></script>
+<script src='~/lib/fullcalendar/list/main.js'></script>
+<script src='~/js/timetable.js'></script>
+<partial name="_ValidationScriptsPartial" />
+}
+
+<div class="d-flex" id="wrapper">
+
+	<partial name="~/Views/Partials/_DoctorSidebar.cshtml" />
+
+	<div id="page-content-wrapper">
+
+		<partial name="~/Views/Partials/_DoctorTopNav.cshtml" />
+
+		<div class="container-fluid">
+			<h1 class="my-4">Harmonogram wizyt</h1>
+			<div id='calendar'></div>
+			<div id="addEventModal" class="modal" tabindex="-1" role="dialog">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<form asp-action="CreateTimetableVisit" asp-controller="Patient" method="post">
+							<div class="modal-header">
+								<h5 class="modal-title" id="pacjentModalLabel">Dodanie wizyty do harmonogramu</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div asp-validation-summary="ModelOnly">
+
+								</div>
+
+								<div>
+									<p>Obsługiwany pacjent</p>
+								</div>
+								<div class="form-group">
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text bg-primary" id="patientHelp">
+												<i class="fas fa-user text-light"></i>
+											</span>
+										</div>
+										<select name="patientId">
+											@{
+												foreach (Patient patient in ViewBag.TreatedPatients)
+												{
+													<option value="@patient.Id">@(patient.FirstName + " " + patient.LastName)</option>
+												}
+											}
+										</select>
+										<div class="w-100">
+											<span class="small text-danger" asp-validation-for="Patient"></span>
+										</div>
+									</div>
+								</div>
+
+								<div>
+									<p>Początek wizyty</p>
+								</div>
+								<div class="form-group">
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text bg-primary" id="startDateHelp">
+												<i class="fas fa-calendar text-light"></i>
+											</span>
+										</div>
+										<input value="@(DateTime.Today.ToString("yyyy-MM-ddTHH:mm"))" asp-for="Start" type="datetime-local" class="form-control" id="startDate"
+											   aria-describeby="startDateHelp">
+										<div class="w-100">
+											<span class="small text-danger" asp-validation-for="Start"></span>
+										</div>
+									</div>
+								</div>
+
+								<div>
+									<p>Koniec wizyty</p>
+								</div>
+								<div class="form-group">
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text bg-primary" id="endDateHelp">
+												<i class="fas fa-calendar text-light"></i>
+											</span>
+										</div>
+										<input value="@(DateTime.Today.ToString("yyyy-MM-ddTHH:mm"))" asp-for="End" type="datetime-local" class="form-control" id="endtDate"
+											   aria-describeby="endDateHelp">
+										<div class="w-100">
+											<span class="small text-danger" asp-validation-for="End"></span>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-primary">Potwierdź</button>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /#page-content-wrapper -->
+</div>
+
+

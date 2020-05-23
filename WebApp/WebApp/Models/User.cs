@@ -8,6 +8,11 @@ namespace WebApp.Models
 {
 	public class User
 	{
+		public User()
+		{
+			Visits = new List<TimetableVisit>();
+		}
+
 		[Key]
 		public int Id { get; set; }
 		[Required(ErrorMessage = "Imię jest wymagane.")]
@@ -37,5 +42,10 @@ namespace WebApp.Models
 		}
 
 		private DateTime? dateCreated = null;
+
+		public ICollection<TimetableVisit> Visits { get; set; }
+
+
 	}
 }
+

@@ -17,64 +17,11 @@
 
 <div class="d-flex" id="wrapper">
 
-	<!-- Sidebar -->
-	<div class="bg-dark border-right" id="sidebar-wrapper">
-		<div class="sidebar-heading text-light text-center">
-			<i class="fas fa-user-md d-block display-4 text-primary"></i> Med-DB
-		</div>
-		<div class="list-group list-group-flush">
-			<a href="/Patient/Index" class="list-group-item list-group-item-action bg-dark text-light">
-				Moi Pacjenci <i class="fas fa-users"></i>
-			</a>
-			<a href="/Patient/Shared" class="list-group-item list-group-item-action bg-dark text-light">
-				Pacjenci Udostępnieni <i class="fas fa-user-plus"></i>
-			</a>
-			<a href="#" class="list-group-item list-group-item-action bg-dark text-light">
-				Harmonogram <i class="fas fa-calendar-alt"></i>
-			</a>
-			<a href="/Auth/Logout" class="list-group-item list-group-item-action bg-dark text-light">
-				Wyloguj z Serwisu <i class="fas fa-sign-out-alt"></i>
-			</a>
-		</div>
-	</div>
-	<!-- /#sidebar-wrapper -->
-	<!-- Page Content -->
+	<partial name="~/Views/Partials/_DoctorSidebar.cshtml" />
+
 	<div id="page-content-wrapper">
 
-		<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-			<button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button>
-
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-					<li class="nav-item">
-						<span class="nav-link nav-date">-</span>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link border border-top-0 border-bottom-0" href="#">Pomoc</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle text-dark font-weight-bold font-italic" href="#"
-						   id="idDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-						   aria-expanded="false">
-							@ViewBag.Username
-						</a>
-						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">Ustawienia konta</a>
-							<a class="dropdown-item" href="#">Kontakt z administratorem</a>
-							<div class="dropdown-divider"></div>
-							<a href="/Auth/Logout" class="dropdown-item">
-								Wyloguj z Serwisu <i class="fas fa-sign-out-alt"></i>
-							</a>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</nav>
+		<partial name="~/Views/Partials/_DoctorTopNav.cshtml" />
 
 		<div class="container-fluid">
 			<div flashes></div>

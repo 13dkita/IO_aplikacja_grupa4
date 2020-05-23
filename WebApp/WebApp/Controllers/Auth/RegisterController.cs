@@ -83,7 +83,7 @@ namespace WebApp.Controllers
 		}
 
 		[HttpGet("RegisterSelf")]
-		public async Task<IActionResult> RegisterSelf()
+		public  IActionResult RegisterSelf()
 		{
 			User = new User();
 			return View(User);

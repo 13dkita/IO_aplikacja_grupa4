@@ -11,8 +11,9 @@ namespace WebApp.Models
 	{
 		[Key]
 		public int Id { get; set; }
+		[Required]
 		public Patient Patient { get; set; }
-
+		[Required]
 		public User Doctor { get; set; }
 	}
 }
